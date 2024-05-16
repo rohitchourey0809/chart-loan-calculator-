@@ -91,9 +91,9 @@ function LoanPaymentCalculator() {
         </p>
       </div>
       <div className="container bg-white rounded-lg shadow-lg mb-4 p-8">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 p-4">
           {/* Input Section */}
-          <div className="shadow-l">
+          <div className="shadow-lg">
             {data.map((item, index) => (
               <div key={index} className="">
                 <label className="block mb-2">{item.name}</label>
@@ -159,7 +159,7 @@ function LoanPaymentCalculator() {
               </p>
             </center>
           </div>
-          <div className="shadow-l">
+          <div className="shadow-lg">
             <center>
               {" "}
               <LineChart width={400} height={400} data={data}>
