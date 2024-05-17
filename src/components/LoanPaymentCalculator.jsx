@@ -11,11 +11,11 @@ import {
 
 function LoanPaymentCalculator() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [loanAmount, setLoanAmount] = useState(6600000);
-  const [interestRate, setInterestRate] = useState(15);
-  const [loanDuration, setLoanDuration] = useState(10);
-  const [courseDuration, setCourseDuration] = useState(24);
-  const [gracePeriod, setGracePeriod] = useState(6);
+  const [loanAmount, setLoanAmount] = useState(10000000);
+  const [interestRate, setInterestRate] = useState(20);
+  const [loanDuration, setLoanDuration] = useState(20);
+  const [courseDuration, setCourseDuration] = useState(20);
+  const [gracePeriod, setGracePeriod] = useState(12);
   const [emi, setEmi] = useState(0);
   const [principalAmount, setPrincipalAmount] = useState(0);
   const [totalInterest, setTotalInterest] = useState(0);
@@ -75,6 +75,29 @@ function LoanPaymentCalculator() {
     setIsDarkMode(!isDarkMode);
   };
 
+  const handleInputChange = (name, value) => {
+    const intValue = parseInt(value, 10);
+    switch (name) {
+      case "Loan Amount":
+        setLoanAmount(intValue);
+        break;
+      case "Interest Rate":
+        setInterestRate(intValue);
+        break;
+      case "Loan Duration":
+        setLoanDuration(intValue);
+        break;
+      case "Course Duration":
+        setCourseDuration(intValue);
+        break;
+      case "Grace Period":
+        setGracePeriod(intValue);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div
       className={`flex flex-col justify-center items-center w-full h-full px-8 py-10 ${
@@ -90,39 +113,19 @@ function LoanPaymentCalculator() {
           on various factors.
         </p>
       </div>
-      <div className="container bg-white rounded-lg shadow-lg mb-4 p-8">
-        <div className="grid grid-cols-3 gap-4 p-4">
+      <div className="container bg-white rounded-lg shadow-lg mb-4 p-8 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
           {/* Input Section */}
-          <div className="shadow-lg">
+          <div className="shadow-lg p-4">
             {data.map((item, index) => (
-              <div key={index} className="">
+              <div key={index} className="mb-4">
                 <label className="block mb-2">{item.name}</label>
                 <input
                   type="range"
-                  min="0"
+                  min={item.name === "Loan Amount" ? "100000" : "0"}
                   max={item.name === "Loan Amount" ? "10000000" : "30"}
                   value={item.value}
-                  onChange={(e) => {
-                    switch (item.name) {
-                      case "Loan Amount":
-                        setLoanAmount(e.target.value);
-                        break;
-                      case "Interest Rate":
-                        setInterestRate(e.target.value);
-                        break;
-                      case "Loan Duration":
-                        setLoanDuration(e.target.value);
-                        break;
-                      case "Course Duration":
-                        setCourseDuration(e.target.value);
-                        break;
-                      case "Grace Period":
-                        setGracePeriod(e.target.value);
-                        break;
-                      default:
-                        break;
-                    }
-                  }}
+                  onChange={(e) => handleInputChange(item.name, e.target.value)}
                   className={`w-full appearance-none h-2 rounded-lg outline-none transition-all duration-300 ease-in-out ${
                     isDarkMode ? "bg-red-600" : "bg-custom-color-1"
                   } ${isDarkMode ? "text-green-600" : "text-custom-color-1"}`}
@@ -138,8 +141,7 @@ function LoanPaymentCalculator() {
             ))}
           </div>
           {/* Result Section */}
-          {/* Chart Section */}
-          <div className="shadow-lg">
+          <div className="shadow-lg p-4">
             <center>
               <h2 className="text-xl font-bold mb-4">Result</h2>
               <p className="mb-2">
@@ -159,33 +161,32 @@ function LoanPaymentCalculator() {
               </p>
             </center>
           </div>
-          <div className="shadow-lg">
+          {/* Chart Section */}
+          <div className="shadow-lg p-4 overflow-auto">
             <center>
-              {" "}
-              <LineChart width={400} height={400} data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="value" stroke="#8884d8" />
-              </LineChart>
+              <div className="chart-container">
+                <LineChart width={300} height={300} data={data}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                </LineChart>
+              </div>
             </center>
           </div>
         </div>
       </div>
       <div>
-        <div>
-          {" "}
-          <button
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-              isDarkMode ? "bg-gray-700" : "bg-blue-500"
-            }`}
-            onClick={toggleDarkMode}
-          >
-            {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          </button>
-        </div>
+        <button
+          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+            isDarkMode ? "bg-gray-700" : "bg-blue-500"
+          }`}
+          onClick={toggleDarkMode}
+        >
+          {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        </button>
       </div>
     </div>
   );
