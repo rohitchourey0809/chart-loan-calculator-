@@ -11,15 +11,16 @@ import {
 
 function LoanPaymentCalculator() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [loanAmount, setLoanAmount] = useState(10000000);
-  const [interestRate, setInterestRate] = useState(20);
-  const [loanDuration, setLoanDuration] = useState(20);
-  const [courseDuration, setCourseDuration] = useState(20);
-  const [gracePeriod, setGracePeriod] = useState(12);
+  const [loanAmount, setLoanAmount] = useState(100000);
+  const [interestRate, setInterestRate] = useState(1);
+  const [loanDuration, setLoanDuration] = useState(1);
+  const [courseDuration, setCourseDuration] = useState(0);
+  const [gracePeriod, setGracePeriod] = useState(0);
   const [emi, setEmi] = useState(0);
   const [principalAmount, setPrincipalAmount] = useState(0);
   const [totalInterest, setTotalInterest] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const userPreference = localStorage.getItem("darkMode");
@@ -61,15 +62,14 @@ function LoanPaymentCalculator() {
     const totalAmountValue =
       parseFloat(principalValue) + parseFloat(totalInterestValue);
     setTotalAmount(totalAmountValue.toFixed(2));
-  }, [loanAmount, interestRate, loanDuration]);
 
-  const data = [
-    { name: "Loan Amount", value: loanAmount },
-    { name: "Interest Rate", value: interestRate },
-    { name: "Loan Duration", value: loanDuration },
-    { name: "Course Duration", value: courseDuration },
-    { name: "Grace Period", value: gracePeriod },
-  ];
+    // Generate data for the chart
+    const chartData = Array.from({ length: totalMonths }, (_, index) => ({
+      month: index + 1,
+      emi: emiValue,
+    }));
+    setData(chartData);
+  }, [loanAmount, interestRate, loanDuration]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -117,13 +117,29 @@ function LoanPaymentCalculator() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
           {/* Input Section */}
           <div className="shadow-lg p-4">
-            {data.map((item, index) => (
+            {[
+              {
+                name: "Loan Amount",
+                value: loanAmount,
+                min: 100000,
+                max: 10000000,
+              },
+              { name: "Interest Rate", value: interestRate, min: 1, max: 30 },
+              { name: "Loan Duration", value: loanDuration, min: 1, max: 30 },
+              {
+                name: "Course Duration",
+                value: courseDuration,
+                min: 0,
+                max: 30,
+              },
+              { name: "Grace Period", value: gracePeriod, min: 0, max: 24 },
+            ].map((item, index) => (
               <div key={index} className="mb-4">
                 <label className="block mb-2">{item.name}</label>
                 <input
                   type="range"
-                  min={item.name === "Loan Amount" ? "100000" : "0"}
-                  max={item.name === "Loan Amount" ? "10000000" : "30"}
+                  min={item.min}
+                  max={item.max}
                   value={item.value}
                   onChange={(e) => handleInputChange(item.name, e.target.value)}
                   className={`w-full appearance-none h-2 rounded-lg outline-none transition-all duration-300 ease-in-out ${
@@ -167,11 +183,11 @@ function LoanPaymentCalculator() {
               <div className="chart-container">
                 <LineChart width={300} height={300} data={data}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
+                  <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="emi" stroke="#8884d8" />
                 </LineChart>
               </div>
             </center>
