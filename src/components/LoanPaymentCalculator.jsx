@@ -100,11 +100,11 @@ function LoanPaymentCalculator() {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center w-full h-full px-8 py-10 ${
+      className={`flex flex-col justify-center items-center bg-white shadow-lg w-full h-full px-8 py-10 ${
         isDarkMode ? "bg-gray-900 text-gray-900" : "bg-green-600 text-black"
       }`}
     >
-      <div className="container max-w-lg bg-white rounded-lg shadow-lg mb-4 px-4 py-8">
+      <div className="container max-w-lg  rounded-lg  mb-4 px-4 py-8">
         <h1 className="text-3xl font-bold mb-2 text-center">
           Loan Repayment Calculator
         </h1>
@@ -113,7 +113,7 @@ function LoanPaymentCalculator() {
           on various factors.
         </p>
       </div>
-      <div className="container bg-white rounded-lg shadow-lg mb-4 p-8 w-full">
+      <div className="container bg-white rounded-lg  mb-4 p-8 w-full">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
           {/* Input Section */}
           <div className="shadow-lg p-4">
@@ -157,7 +157,7 @@ function LoanPaymentCalculator() {
             ))}
           </div>
           {/* Result Section */}
-          <div className="shadow-lg p-4">
+          <div className=" p-4">
             <center>
               <h2 className="text-xl font-bold mb-4">Result</h2>
               <p className="mb-2">
@@ -178,7 +178,7 @@ function LoanPaymentCalculator() {
             </center>
           </div>
           {/* Chart Section */}
-          <div className="shadow-lg p-4 overflow-auto">
+          <div className=" p-4 overflow-auto">
             <center>
               <div className="chart-container">
                 <LineChart width={300} height={300} data={data}>
