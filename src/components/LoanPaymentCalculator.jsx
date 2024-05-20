@@ -161,19 +161,19 @@ function LoanPaymentCalculator() {
             <center>
               <h2 className="text-xl font-bold mb-4">Result</h2>
               <p className="mb-2">
-                <span className="font-semibold">Principal Amount:</span> ₹
-                {principalAmount}
+                <span className="font-semibold">Principal Amount:</span>
+                <br />₹{principalAmount}
               </p>
               <p className="mb-2">
-                <span className="font-semibold">Total Interest:</span> ₹
-                {totalInterest}
+                <span className="font-semibold">Total Interest:</span>
+                <br />₹{totalInterest}
               </p>
               <p className="mb-2">
-                <span className="font-semibold">Total Amount:</span> ₹
+                <span className="font-semibold">Total Amount:</span> <br /> ₹
                 {totalAmount}
               </p>
               <p className="mb-2">
-                <span className="font-semibold">Monthly EMI:</span> ₹{emi}
+                <span className="font-semibold">Monthly EMI:</span> <br />₹{emi}
               </p>
             </center>
           </div>
